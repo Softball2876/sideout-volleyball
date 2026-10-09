@@ -26,6 +26,8 @@
 <style>
 .captain-reg-row{padding:14px}.approved-schedule{margin-top:12px;padding:14px;border:1px solid #b8ddd0;border-radius:9px;background:#f1faf6}.approved-schedule h4{margin:0 0 8px;font-size:14px;color:#14734f}.approved-schedule-grid{display:flex;flex-wrap:wrap;gap:8px}.approved-schedule-item{padding:8px 10px;border-radius:7px;background:#fff;border:1px solid #d9ebe4;font-size:11px}.team-invite{margin-top:12px;padding:12px;border-top:1px solid var(--line)}.team-invite h4{margin:0 0 5px;font-size:13px}.team-invite p{margin:0 0 9px;font-size:10px;line-height:1.5;color:var(--muted)}.team-invite-controls{display:flex;gap:8px;flex-wrap:wrap}.team-invite-controls input{flex:1;min-width:240px;border:1px solid var(--line);border-radius:7px;padding:10px;font:11px var(--sans)}.team-invite-controls .button{padding:10px 12px;font-size:10px}.team-invite-status{min-height:14px;margin-top:6px;font-size:10px;color:var(--muted)}
 </style>
+
+<style id="sideout-single-tab-styles">.tab-page-hidden{display:none!important}.topnav a[aria-current="page"]{background:#e1efec;outline:2px solid #b8d9d3;outline-offset:1px}</style>
 </head>
 <body>
 <header class="wrap topbar"><a class="brand" href="#top"><span class="logo">🏐</span><span>Sideout Volleyball</span></a><nav class="topnav" aria-label="Main navigation"><a href="#top">Home</a><a href="#public-schedule">Game Schedule</a><a href="#standings">Standings</a><a href="#teams-directory">Teams</a><a href="#team-access">My Team</a><a class="join" href="#signup">Sign Up</a><a href="#admin">Admin</a></nav><div class="signup-mode-tabs" role="tablist" aria-label="Sign-up options" hidden><button class="nav-tab" id="teamAccountTab" type="button" role="tab" aria-selected="false" aria-controls="team-access" data-signup-mode="team">Team account</button><button class="join" id="saveSpotTab" type="button" role="tab" aria-selected="true" aria-controls="signup" data-signup-mode="signup">Free-agent signup</button></div></header>
@@ -244,6 +246,32 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
  load();
 })();
 
+</script>
+
+<script id="SIDEOUT_SINGLE_TAB_NAV">
+(function(){
+  const nav=document.querySelector('.topnav');
+  if(!nav)return;
+  const links=[...nav.querySelectorAll('a')];
+  const sections={home:['.hero','.stats','#league'],schedule:['#public-schedule'],standings:['#standings'],teams:['#teams-directory'],myteam:['#team-access'],signup:['#league'],admin:['#admin']};
+  const pageByHash={'#top':'home','#public-schedule':'schedule','#standings':'standings','#teams-directory':'teams','#team-access':'myteam','#signup':'signup','#admin':'admin'};
+  const allPanels=['.hero','.stats','#public-schedule','#standings','#teams-directory','#team-access','#league','#admin'];
+  function showPage(page,updateHash){
+    if(!sections[page])page='home';
+    allPanels.forEach(sel=>{const el=document.querySelector(sel);if(el)el.classList.add('tab-page-hidden');});
+    (sections[page]||sections.home).forEach(sel=>{const el=document.querySelector(sel);if(el)el.classList.remove('tab-page-hidden');});
+    const intro=document.querySelector('#league .main-intro');
+    const signup=document.querySelector('#signup');
+    const teamAccess=document.querySelector('#team-access');
+    if(intro)intro.classList.toggle('tab-page-hidden',page==='signup');
+    if(signup)signup.classList.toggle('tab-page-hidden',page!=='signup');
+    if(teamAccess){if(page==='myteam')teamAccess.removeAttribute('hidden');else if(!teamAccess.classList.contains('tab-page-hidden'))teamAccess.setAttribute('hidden','');}
+    links.forEach(a=>{const active=pageByHash[a.getAttribute('href')]===page;if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+    if(updateHash){const target=({home:'#top',schedule:'#public-schedule',standings:'#standings',teams:'#teams-directory',myteam:'#team-access',signup:'#signup',admin:'#admin'})[page];history.replaceState(null,'',target);window.scrollTo({top:0,behavior:'auto'});}
+  }
+  links.forEach(a=>a.addEventListener('click',function(e){const page=pageByHash[a.getAttribute('href')];if(!page)return;e.preventDefault();showPage(page,true);}));
+  const initial=pageByHash[location.hash]||'home';showPage(initial,false);
+})();
 </script>
 </body></html>
 
