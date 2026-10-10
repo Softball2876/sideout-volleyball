@@ -72,6 +72,11 @@
 #league > #teamRegistrationCard.home-team-registration[hidden],
 #league > #captainRegistrations.home-team-registrations[hidden]{display:none!important;}
 #league > #teamRegistrationCard.home-team-registration{border-radius:16px;}
+#league > .home-team-account-card{width:min(1120px,100%);margin:24px auto;padding:clamp(18px,3vw,30px);border:1px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+#league > .home-team-account-card h3{margin-top:0}
+#league > .home-team-account-card .account-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#league > .home-team-account-card .account-actions{display:flex;gap:9px;flex-wrap:wrap}
+@media(max-width:600px){#league > .home-team-account-card .account-fields{grid-template-columns:1fr}#league > .home-team-account-card .account-actions .button{flex:1 1 100%}}
 </style>
 </head>
 <body>
@@ -429,20 +434,30 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
 })();
 </script>
 
-<script id="MOVE_TEAM_REGISTRATION_TO_HOME">
+<script id="MOVE_TEAM_SIGNIN_AND_REGISTRATION_TO_HOME">
 (function(){
   const homeSection=document.getElementById('league');
+  const teamAccess=document.getElementById('team-access');
+  const accountCard=teamAccess?.querySelector('.account-card');
   const teamRegistration=document.getElementById('teamRegistrationCard');
   const captainRegistrations=document.getElementById('captainRegistrations');
   const intro=homeSection?.querySelector('.main-intro');
   if(!homeSection||!intro)return;
-  if(teamRegistration)intro.insertAdjacentElement('afterend',teamRegistration);
-  if(captainRegistrations){
-    const anchor=teamRegistration||intro;
-    anchor.insertAdjacentElement('afterend',captainRegistrations);
+  /* Put captain sign-in/create-account on Home, ahead of team registration. */
+  if(accountCard){
+    accountCard.classList.add('home-team-account-card');
+    intro.insertAdjacentElement('afterend',accountCard);
   }
-  if(teamRegistration){teamRegistration.classList.add('home-team-registration');}
-  if(captainRegistrations){captainRegistrations.classList.add('home-team-registrations');}
+  if(teamRegistration){
+    const anchor=accountCard||intro;
+    anchor.insertAdjacentElement('afterend',teamRegistration);
+    teamRegistration.classList.add('home-team-registration');
+  }
+  if(captainRegistrations){
+    const anchor=teamRegistration||accountCard||intro;
+    anchor.insertAdjacentElement('afterend',captainRegistrations);
+    captainRegistrations.classList.add('home-team-registrations');
+  }
 })();
 </script>
 
