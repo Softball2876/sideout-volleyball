@@ -77,6 +77,29 @@
 #league > .home-team-account-card .account-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #league > .home-team-account-card .account-actions{display:flex;gap:9px;flex-wrap:wrap}
 @media(max-width:600px){#league > .home-team-account-card .account-fields{grid-template-columns:1fr}#league > .home-team-account-card .account-actions .button{flex:1 1 100%}}
+
+/* Layout correction: honor hidden panels and give community tools a balanced layout. */
+#community-team-layout{width:min(1120px,calc(100% - 44px));grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+#community-team-layout > #team-access[hidden],
+#community-team-layout > #message-board[hidden],
+#league[hidden],
+#teamRegistrationCard[hidden],
+#captainRegistrations[hidden]{display:none!important}
+#community-team-layout > #message-board,
+#community-team-layout > #team-access{min-width:0}
+#community-team-layout > #message-board h2,
+#community-team-layout > #team-access h2{font-size:clamp(32px,3.3vw,44px);line-height:1.05;margin:10px 0 12px}
+#community-team-layout .panel-lead,
+#community-team-layout #team-access .directory-info>p{max-width:48ch;font-size:13px;line-height:1.65}
+#community-team-layout #message-board .directory-card{padding:20px;border:1px solid var(--line);border-radius:13px;background:#fff;box-shadow:0 8px 24px rgba(16,44,55,.06)}
+#community-team-layout #message-board .account-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+#community-team-layout #message-board .account-fields textarea{width:100%;min-height:120px}
+#community-team-layout #message-board .schedule-filters{max-width:260px}
+#community-team-layout #message-board .public-schedule-list{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+#community-team-layout #team-access .captain-registrations,
+#community-team-layout #team-access .team-register-card{box-shadow:0 8px 24px rgba(16,44,55,.06)}
+#league > .home-team-account-card{width:min(760px,calc(100% - 44px));margin:36px auto;padding:clamp(22px,3vw,34px)}
+@media(max-width:760px){#community-team-layout{width:calc(100% - 32px);grid-template-columns:minmax(0,1fr);gap:14px}#community-team-layout > #message-board,#community-team-layout > #team-access{padding-top:24px}#community-team-layout #message-board .account-fields{grid-template-columns:minmax(0,1fr)}#league > .home-team-account-card{width:calc(100% - 32px)}}
 </style>
 </head>
 <body>
