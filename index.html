@@ -65,6 +65,14 @@
 </style>
 
 <style id="sideout-single-tab-styles">.tab-page-hidden{display:none!important}.topnav a[aria-current="page"]{background:#e1efec;outline:2px solid #b8d9d3;outline-offset:1px}.topnav a[hidden]{display:none!important}</style>
+<style id="home-team-registration-layout">
+/* Team registration appears on Home only after a captain signs in. */
+#league > #teamRegistrationCard.home-team-registration,
+#league > #captainRegistrations.home-team-registrations{width:min(1120px,100%);margin:24px auto;padding:clamp(18px,3vw,32px);}
+#league > #teamRegistrationCard.home-team-registration[hidden],
+#league > #captainRegistrations.home-team-registrations[hidden]{display:none!important;}
+#league > #teamRegistrationCard.home-team-registration{border-radius:16px;}
+</style>
 </head>
 <body>
 <header class="wrap topbar"><a class="brand" href="#top"><span class="logo">🏐</span><span>Volleyball@piazzaaurora</span></a><nav class="topnav" aria-label="Main navigation"><a href="#top">Home</a><a href="#public-schedule">Game Schedule</a><a href="#events">Events</a><a href="#standings">Standings</a><a href="#teams-directory">Teams</a><a href="#message-board">Message Board</a><a href="#team-access">My Team</a><a href="#free-agents">Free Agents</a><a href="#referees">Refs</a><a href="#admin">Admin</a></nav><div class="signup-mode-tabs" role="tablist" aria-label="Sign-up options" hidden><button class="nav-tab" id="teamAccountTab" type="button" role="tab" aria-selected="false" aria-controls="team-access" data-signup-mode="team">Team account</button><button class="join" id="saveSpotTab" type="button" role="tab" aria-selected="true" aria-controls="signup" data-signup-mode="signup">Free-agent signup</button></div></header>
@@ -418,6 +426,23 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
  $('refAvailabilityForm').addEventListener('submit',async e=>{e.preventDefault();if(!refSession)return msg(scheduleStatus,'Sign in first.');const db=client();if(!ownRef)return msg(scheduleStatus,'Only approved referees can save availability.');const payload={referee_id:ownRef.id,game_day:$('refDay').value,court:$('refCourt').value,assignment_status:'available',updated_at:new Date().toISOString()};const {error}=await db.from('league_referee_assignments').upsert(payload,{onConflict:'referee_id,game_day,court'});if(error)return msg(scheduleStatus,'Could not save availability: '+error.message);msg(scheduleStatus,'Availability saved.');$('refAvailabilityForm').reset();await loadRefSchedule();});
  list.addEventListener('click',async e=>{const b=e.target.closest('[data-save-game-ref]');if(!b)return;if(!refSession||!ownRef)return msg(scheduleStatus,'Sign in with an approved referee account first.');const id=b.dataset.saveGameRef,select=list.querySelector(`[data-game-ref="${CSS.escape(id)}"]`);if(!select)return;const db=client();b.disabled=true;try{const {error}=await db.from('league_schedules').update({assigned_referee_id:select.value||null,updated_at:new Date().toISOString()}).eq('id',id);if(error)throw error;msg(scheduleStatus,'Referee assignment saved. Refreshing the shared schedule…');await loadRefSchedule();}catch(e){msg(scheduleStatus,'Could not save assignment: '+e.message);}finally{b.disabled=false;}});
  if(window.remoteClient||typeof remoteClient!=='undefined'){syncAuth();const db=client();db.auth.onAuthStateChange(()=>{setTimeout(syncAuth,0);});}else msg(status,'Database service is unavailable.');
+})();
+</script>
+
+<script id="MOVE_TEAM_REGISTRATION_TO_HOME">
+(function(){
+  const homeSection=document.getElementById('league');
+  const teamRegistration=document.getElementById('teamRegistrationCard');
+  const captainRegistrations=document.getElementById('captainRegistrations');
+  const intro=homeSection?.querySelector('.main-intro');
+  if(!homeSection||!intro)return;
+  if(teamRegistration)intro.insertAdjacentElement('afterend',teamRegistration);
+  if(captainRegistrations){
+    const anchor=teamRegistration||intro;
+    anchor.insertAdjacentElement('afterend',captainRegistrations);
+  }
+  if(teamRegistration){teamRegistration.classList.add('home-team-registration');}
+  if(captainRegistrations){captainRegistrations.classList.add('home-team-registrations');}
 })();
 </script>
 
