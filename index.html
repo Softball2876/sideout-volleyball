@@ -77,10 +77,30 @@
 #league > .home-team-account-card .account-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 #league > .home-team-account-card .account-actions{display:flex;gap:9px;flex-wrap:wrap}
 @media(max-width:600px){#league > .home-team-account-card .account-fields{grid-template-columns:1fr}#league > .home-team-account-card .account-actions .button{flex:1 1 100%}}
+
+/* Wider, tighter desktop navigation so the requested tabs read cleanly in one row. */
+@media(min-width:821px){
+  .topbar.wrap{width:calc(100% - 48px);max-width:1500px;gap:18px;justify-content:flex-start}
+  .topbar .brand{flex:0 0 auto;white-space:nowrap;gap:9px;letter-spacing:-.45px}
+  .topnav{flex:1 1 auto;min-width:0;justify-content:space-between;gap:3px;font-size:12px;white-space:nowrap}
+  .topnav a{padding:8px 6px;white-space:nowrap}
+}
+@media(min-width:821px) and (max-width:1150px){
+  .topbar.wrap{width:calc(100% - 24px);gap:8px}
+  .topbar .brand{font-size:12px;gap:6px}
+  .topbar .logo{width:32px;height:32px}
+  .topnav{font-size:10px;gap:0}
+  .topnav a{padding:7px 4px}
+}
+@media(max-width:820px){
+  .topbar.wrap{width:calc(100% - 24px);height:auto;min-height:68px;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0}
+  .topnav{flex:1 1 100%;justify-content:flex-start;gap:4px;flex-wrap:wrap}
+  .topnav a{padding:7px 8px}
+}
 </style>
 </head>
 <body>
-<header class="wrap topbar"><a class="brand" href="#top"><span class="logo">🏐</span><span>Volleyball@piazzaaurora</span></a><nav class="topnav" aria-label="Main navigation"><a href="#top">Home</a><a href="#public-schedule">Game Schedule</a><a href="#events">Events</a><a href="#standings">Standings</a><a href="#teams-directory">Teams</a><a href="#message-board">Message Board</a><a href="#team-access">My Team</a><a href="#free-agents">Free Agents</a><a href="#referees">Refs</a><a href="#admin">Admin</a></nav><div class="signup-mode-tabs" role="tablist" aria-label="Sign-up options" hidden><button class="nav-tab" id="teamAccountTab" type="button" role="tab" aria-selected="false" aria-controls="team-access" data-signup-mode="team">Team account</button><button class="join" id="saveSpotTab" type="button" role="tab" aria-selected="true" aria-controls="signup" data-signup-mode="signup">Free-agent signup</button></div></header>
+<header class="wrap topbar"><a class="brand" href="#top"><span class="logo">🏐</span><span>Volleyball@piazzaaurora</span></a><nav class="topnav" aria-label="Main navigation"><a href="#top">Home</a><a href="#team-access">My Team</a><a href="#teams-directory">Teams</a><a href="#standings">Standings</a><a href="#message-board">Message Board</a><a href="#free-agents">Free Agent</a><a href="#referees">Refs</a><a href="#admin">Admin</a><a href="#public-schedule">Game Schedule</a><a href="#events">Events</a></nav><div class="signup-mode-tabs" role="tablist" aria-label="Sign-up options" hidden><button class="nav-tab" id="teamAccountTab" type="button" role="tab" aria-selected="false" aria-controls="team-access" data-signup-mode="team">Team account</button><button class="join" id="saveSpotTab" type="button" role="tab" aria-selected="true" aria-controls="signup" data-signup-mode="signup">Free-agent signup</button></div></header>
 <main id="top">
 <section class="wrap hero"><div class="art"><img src="piazza-volleyball.png" alt="The Piazza volleyball courts and league logo"><div class="art-caption"><i>●</i> YOUR NEXT GAME NIGHT</div><div class="art-badge">PLAY<br>TOGETHER<br>★ 2026</div></div></section>
 <section class="stats" aria-label="League overview"><div class="wrap stats-inner"><div class="stat"><strong>1 location</strong><small>The Piazza</small></div><div class="stat"><strong>Sunday–Friday</strong><small>The Piazza game nights</small></div><div class="stat"><strong>3 courts</strong><small>Red · White · Blue at The Piazza</small></div><div class="stat"><strong>All levels</strong><small>New players welcome</small></div></div></section>
