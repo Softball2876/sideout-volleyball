@@ -101,6 +101,23 @@
 #team-access > .home-team-account-card{width:min(760px,calc(100% - 44px));margin:36px auto;padding:clamp(22px,3vw,34px)}
 @media(max-width:760px){#community-team-layout{width:calc(100% - 32px);grid-template-columns:minmax(0,1fr);gap:14px}#community-team-layout > #message-board,#community-team-layout > #team-access{padding-top:24px}#community-team-layout #message-board .account-fields{grid-template-columns:minmax(0,1fr)}#team-access > .home-team-account-card{width:calc(100% - 32px)}}
 </style>
+
+<style id="sideout-layout-final-fix">
+/* Keep navigation in its own row; never let it overlap section headings. */
+.topbar{position:relative;top:auto;height:auto;min-height:78px;flex-wrap:wrap;gap:12px;padding:14px 0;align-items:center}
+.topnav{display:flex;flex:1 1 620px;justify-content:flex-end;flex-wrap:wrap;gap:5px 9px;min-width:0}
+.topnav a{white-space:nowrap;font-size:12px;padding:8px 7px}
+.public-panel,.main,#community-team-layout{scroll-margin-top:18px}
+#community-team-layout{padding-top:12px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+#community-team-layout>#message-board,#community-team-layout>#team-access{padding-top:24px}
+#community-team-layout>#team-access[hidden],#community-team-layout>#message-board[hidden]{display:none!important}
+#team-access .directory-info{margin-bottom:0}
+#team-access>.home-team-account-card{display:block!important;width:100%;max-width:none;margin:18px 0 0;padding:24px}
+#team-access>.home-team-account-card .account-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#team-access>.home-team-account-card .account-actions{display:flex;flex-wrap:wrap;gap:9px}
+#team-access>.home-team-account-card .account-actions .button{flex:1 1 130px}
+@media(max-width:760px){.topbar{align-items:flex-start}.topnav{flex:1 1 100%;justify-content:flex-start}.topnav a{font-size:11px}#community-team-layout{grid-template-columns:minmax(0,1fr);gap:12px}#team-access>.home-team-account-card .account-fields{grid-template-columns:minmax(0,1fr)}}
+</style>
 </head>
 <body>
 <header class="wrap topbar"><a class="brand" href="#top"><span class="logo">🏐</span><span>Volleyball@piazzaaurora</span></a><nav aria-label="Main navigation" class="topnav"><a href="#top">Home</a><a href="#public-schedule">Game Schedule</a><a href="#events">Events</a><a href="#standings">Standings</a><a href="#teams-directory">Teams</a><a href="#message-board">Message Board</a><a href="#team-access">My Team</a><a href="#free-agents">Free Agents</a><a href="#referees">Refs</a><a href="#admin">Admin</a></nav><div aria-label="Sign-up options" class="signup-mode-tabs" hidden="" role="tablist"><button aria-controls="team-access" aria-selected="false" class="nav-tab" data-signup-mode="team" id="teamAccountTab" role="tab" type="button">Team account</button><button aria-controls="signup" aria-selected="true" class="join" data-signup-mode="signup" id="saveSpotTab" role="tab" type="button">Free-agent signup</button></div></header>
@@ -481,9 +498,9 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
   const nav=document.querySelector('.topnav');
   if(!nav)return;
   const links=[...nav.querySelectorAll('a')];
-  const sections={home:['.hero','.stats','#league'],schedule:['#public-schedule'],events:['#events'],standings:['#standings'],teams:['#teams-directory'],myteam:['#team-access'],freeagents:['#free-agents'],referees:['#referees'],signup:['#league'],admin:['#admin']};
-  const pageByHash={'#top':'home','#public-schedule':'schedule','#events':'events','#standings':'standings','#teams-directory':'teams','#team-access':'myteam','#free-agents':'freeagents','#referees':'referees','#signup':'signup','#admin':'admin'};
-  const allPanels=['.hero','.stats','#public-schedule','#events','#standings','#teams-directory','#free-agents','#referees','#league','#admin'];
+  const sections={home:['.hero','.stats','#league'],messageboard:['#message-board'],schedule:['#public-schedule'],events:['#events'],standings:['#standings'],teams:['#teams-directory'],myteam:['#team-access'],freeagents:['#free-agents'],referees:['#referees'],signup:['#league'],admin:['#admin']};
+  const pageByHash={'#top':'home','#message-board':'messageboard','#public-schedule':'schedule','#events':'events','#standings':'standings','#teams-directory':'teams','#team-access':'myteam','#free-agents':'freeagents','#referees':'referees','#signup':'signup','#admin':'admin'};
+  const allPanels=['.hero','.stats','#message-board','#team-access','#public-schedule','#events','#standings','#teams-directory','#free-agents','#referees','#league','#admin'];
   function showPage(page,updateHash){
     if(!sections[page])page='home';
     if(page==='signup'&&!window.sideoutHasAccountSession){page='myteam';if(updateHash){history.replaceState(null,'','#team-access');}}
@@ -492,10 +509,11 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
     const intro=document.querySelector('#league .main-intro');
     const signup=document.querySelector('#signup');
     const teamAccess=document.querySelector('#team-access');
-    const homeAccount=document.querySelector('.home-team-account-card');if(homeAccount)homeAccount.classList.toggle('tab-page-hidden',page!=='myteam');
+    const homeAccount=document.querySelector('.home-team-account-card');if(homeAccount)homeAccount.classList.remove('tab-page-hidden');
     if(intro)intro.classList.toggle('tab-page-hidden',page==='signup');
     if(signup)signup.classList.toggle('tab-page-hidden',page!=='signup');
-    if(teamAccess){teamAccess.classList.remove('tab-page-hidden');teamAccess.removeAttribute('hidden');}
+    if(teamAccess){if(page==='myteam'){teamAccess.classList.remove('tab-page-hidden');teamAccess.removeAttribute('hidden');}else{teamAccess.classList.add('tab-page-hidden');}}
+    const board=document.querySelector('#message-board');if(board){if(page==='messageboard'){board.classList.remove('tab-page-hidden');}else{board.classList.add('tab-page-hidden');}}
     links.forEach(a=>{const active=pageByHash[a.getAttribute('href')]===page;if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if(updateHash){const target=({home:'#top',schedule:'#public-schedule',events:'#events',standings:'#standings',teams:'#teams-directory',myteam:'#team-access',freeagents:'#free-agents',referees:'#referees',signup:'#signup',admin:'#admin'})[page];history.replaceState(null,'',target);window.scrollTo({top:0,behavior:'auto'});}
   }
