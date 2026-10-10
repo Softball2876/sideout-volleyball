@@ -434,15 +434,18 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
 })();
 </script>
 
-<!-- Team account remains inside #team-access so the side-by-side community layout can position it beside the Message Board. -->
+<!-- Team account, registration, and team information stay inside the My Team page. -->
 
 <script id="SIDEOUT_SINGLE_TAB_NAV">
 (function(){
   const nav=document.querySelector('.topnav');
   if(!nav)return;
   const links=[...nav.querySelectorAll('a')];
-  const sections={home:['.hero','.stats','#league'],schedule:['#public-schedule'],events:['#events'],standings:['#standings'],teams:['#teams-directory'],myteam:['#team-access'],freeagents:['#free-agents'],referees:['#referees'],signup:['#league'],admin:['#admin']};
-  const pageByHash={'#top':'home','#public-schedule':'schedule','#events':'events','#standings':'standings','#teams-directory':'teams','#team-access':'myteam','#free-agents':'freeagents','#referees':'referees','#signup':'signup','#admin':'admin'};
+  const saveSpot=document.querySelector('#signup');
+  const teamAccessPanel=document.querySelector('#team-access');
+  if(saveSpot&&teamAccessPanel&&!teamAccessPanel.contains(saveSpot))teamAccessPanel.appendChild(saveSpot);
+  const sections={home:['.hero','.stats','#league'],schedule:['#public-schedule'],events:['#events'],standings:['#standings'],teams:['#teams-directory'],myteam:['#team-access','#signup'],freeagents:['#free-agents'],referees:['#referees'],signup:['#team-access','#signup'],admin:['#admin']};
+  const pageByHash={'#top':'home','#public-schedule':'schedule','#events':'events','#standings':'standings','#teams-directory':'teams','#team-access':'myteam','#free-agents':'freeagents','#referees':'referees','#signup':'myteam','#admin':'admin'};
   const allPanels=['.hero','.stats','#public-schedule','#events','#standings','#teams-directory','#free-agents','#referees','#league','#admin'];
   function showPage(page,updateHash){
     if(!sections[page])page='home';
@@ -453,8 +456,8 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
     const signup=document.querySelector('#signup');
     const teamAccess=document.querySelector('#team-access');
     if(intro)intro.classList.toggle('tab-page-hidden',page==='signup');
-    if(signup)signup.classList.toggle('tab-page-hidden',page!=='signup');
-    if(teamAccess){teamAccess.classList.remove('tab-page-hidden');teamAccess.removeAttribute('hidden');}
+    if(signup)signup.classList.toggle('tab-page-hidden',page!=='myteam');
+    if(teamAccess){teamAccess.classList.toggle('tab-page-hidden',page!=='myteam');teamAccess.removeAttribute('hidden');}
     links.forEach(a=>{const active=pageByHash[a.getAttribute('href')]===page;if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if(updateHash){const target=({home:'#top',schedule:'#public-schedule',events:'#events',standings:'#standings',teams:'#teams-directory',myteam:'#team-access',freeagents:'#free-agents',referees:'#referees',signup:'#signup',admin:'#admin'})[page];history.replaceState(null,'',target);window.scrollTo({top:0,behavior:'auto'});}
   }
