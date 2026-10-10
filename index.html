@@ -434,32 +434,6 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
 })();
 </script>
 
-<script id="MOVE_TEAM_SIGNIN_AND_REGISTRATION_TO_HOME">
-(function(){
-  const homeSection=document.getElementById('league');
-  const teamAccess=document.getElementById('team-access');
-  const accountCard=teamAccess?.querySelector('.account-card');
-  const teamRegistration=document.getElementById('teamRegistrationCard');
-  const captainRegistrations=document.getElementById('captainRegistrations');
-  const intro=homeSection?.querySelector('.main-intro');
-  if(!homeSection||!intro)return;
-  /* Put captain sign-in/create-account on Home, ahead of team registration. */
-  if(accountCard){
-    accountCard.classList.add('home-team-account-card');
-    intro.insertAdjacentElement('afterend',accountCard);
-  }
-  if(teamRegistration){
-    const anchor=accountCard||intro;
-    anchor.insertAdjacentElement('afterend',teamRegistration);
-    teamRegistration.classList.add('home-team-registration');
-  }
-  if(captainRegistrations){
-    const anchor=teamRegistration||accountCard||intro;
-    anchor.insertAdjacentElement('afterend',captainRegistrations);
-    captainRegistrations.classList.add('home-team-registrations');
-  }
-})();
-</script>
 
 <script id="SIDEOUT_SINGLE_TAB_NAV">
 (function(){
