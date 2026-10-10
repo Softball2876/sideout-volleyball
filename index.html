@@ -530,6 +530,12 @@ document.getElementById('rrGenerateButton')?.addEventListener('click',async()=>{
     if(updateHash){const target=({home:'#top',schedule:'#public-schedule',events:'#events',standings:'#standings',teams:'#teams-directory',myteam:'#team-access',freeagents:'#free-agents',referees:'#referees',signup:'#signup',admin:'#admin'})[page];history.replaceState(null,'',target);window.scrollTo({top:0,behavior:'auto'});}
   }
   links.forEach(a=>a.addEventListener('click',function(e){const page=pageByHash[a.getAttribute('href')];if(!page)return;e.preventDefault();showPage(page,true);}));
+  // Make the footer "Join the league" link use the same single-page navigation
+  // as the main menu, so the destination panel is revealed before scrolling.
+  document.querySelectorAll('.footer a[href="#signup"]').forEach(a=>a.addEventListener('click',function(e){
+    e.preventDefault();
+    showPage('signup',true);
+  }));
   const signupLink=nav.querySelector('a[href="#signup"]');if(signupLink)signupLink.hidden=!window.sideoutHasAccountSession;
   const initial=pageByHash[location.hash]||'home';showPage(initial,false);
 })();
