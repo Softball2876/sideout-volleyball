@@ -32,6 +32,33 @@
 #community-team-layout > #team-access .account-fields{grid-template-columns:1fr}
 @media(max-width:760px){#community-team-layout{grid-template-columns:1fr;gap:8px}#community-team-layout > #message-board,#community-team-layout > #team-access{padding-top:24px}}
 
+/* Cleaner My Team page organization */
+#community-team-layout > #team-access{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-content:start;padding-top:32px}
+#team-access .directory-info{min-width:0;display:flex;flex-direction:column;gap:12px}
+#team-access .directory-info h2{font-size:clamp(34px,3vw,42px);margin:6px 0 0;letter-spacing:-1.2px}
+#team-access .directory-info>p{margin:0 0 4px;font-size:12px;line-height:1.65}
+#team-access .account-card{padding:18px;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(16,44,55,.06)}
+#team-access .account-card h3{font-size:22px;margin-bottom:7px}
+#team-access .account-card .account-note{margin-bottom:12px}
+#community-team-layout > #team-access .account-fields{grid-template-columns:minmax(0,1fr);gap:10px}
+#team-access .account-fields input{padding:11px 12px;font-size:12px}
+#team-access .account-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#team-access .account-actions .button{width:100%;min-height:38px;padding:9px;font-size:10px}
+#team-access .account-status{padding:9px 10px;background:#f4f8f7;border-radius:7px;min-height:34px}
+#team-access .team-register-card,#team-access .captain-registrations{grid-column:auto;min-width:0;width:100%;margin:0}
+#team-access .team-register-card{padding:18px;border-radius:12px}
+#team-access .team-register-card .form-head{display:block;margin-bottom:16px}
+#team-access .team-register-card .open-pill{display:inline-block;margin-top:9px}
+#team-access .team-register-card .form-head h3{font-size:23px}
+#team-access .team-register-card .grid{grid-template-columns:minmax(0,1fr);gap:12px}
+#team-access .team-register-card .field.full{grid-column:auto}
+#team-access .team-register-card .waiver{grid-column:auto}
+#team-access .captain-registrations{padding:18px;border-radius:12px}
+#team-access .captain-registrations h3{font-size:22px}
+#team-access .captain-registration-list{gap:10px}
+@media(max-width:760px){#community-team-layout > #team-access{padding-top:20px}#team-access .account-actions{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){#team-access .account-actions{grid-template-columns:1fr}#team-access .account-card,#team-access .team-register-card,#team-access .captain-registrations{padding:15px}}
+
 </style>
 <style>
 .captain-reg-row{padding:14px}.approved-schedule{margin-top:12px;padding:14px;border:1px solid #b8ddd0;border-radius:9px;background:#f1faf6}.approved-schedule h4{margin:0 0 8px;font-size:14px;color:#14734f}.approved-schedule-grid{display:flex;flex-wrap:wrap;gap:8px}.approved-schedule-item{padding:8px 10px;border-radius:7px;background:#fff;border:1px solid #d9ebe4;font-size:11px}.team-invite{margin-top:12px;padding:12px;border-top:1px solid var(--line)}.team-invite h4{margin:0 0 5px;font-size:13px}.team-invite p{margin:0 0 9px;font-size:10px;line-height:1.5;color:var(--muted)}.team-invite-controls{display:flex;gap:8px;flex-wrap:wrap}.team-invite-controls input{flex:1;min-width:240px;border:1px solid var(--line);border-radius:7px;padding:10px;font:11px var(--sans)}.team-invite-controls .button{padding:10px 12px;font-size:10px}.team-invite-status{min-height:14px;margin-top:6px;font-size:10px;color:var(--muted)}
